@@ -1,0 +1,28 @@
+command /spawn:
+    description: Teleport to the spawn area
+    permission: server.spawn
+    trigger:
+        teleport player to location(0, 100, 0, world("world")) # Set to spawn location
+        send "&aYou have been teleported to the spawn!"
+
+on join:
+    send "&6Welcome, &e%player%&6, to the server!" to player
+    send "&bToday's MOTD: &7Explore and build your legacy!" to player
+
+command /kit adventurer:
+    description: Get the Adventurer kit
+    permission: server.kits.adventurer
+    trigger:
+        give player diamond sword named "&bAdventurer's Blade"
+        give player 16 bread
+        give player leather armor
+        send "&aYou have received the Adventurer kit!"
+
+command /kit builder:
+    description: Get the Builder kit
+    permission: server.kits.builder
+    trigger:
+        give player stone pickaxe named "&eBuilder's Tool"
+        give player 64 cobblestone
+        give player 32 oak planks
+        send "&aYou have received the Builder kit!"

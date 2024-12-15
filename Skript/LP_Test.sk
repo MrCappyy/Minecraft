@@ -1,0 +1,36 @@
+# Command to make a player an Adventurer
+command /makeadventurer <player>:
+    description: Assign Adventurer role to a player
+    permission: admin.assign.adventurer
+    trigger:
+        if arg-1 is set:
+            set {adventurer::%uuid of arg-1%} to true
+            send "&a%arg-1% is now an Adventurer!" to player
+            send "&aYou have been granted the Adventurer role!" to arg-1
+        else:
+            send "&cYou must specify a player!" to player
+
+# Command to remove the Adventurer role
+command /removeadventurer <player>:
+    description: Remove Adventurer role from a player
+    permission: admin.remove.adventurer
+    trigger:
+        if arg-1 is set:
+            delete {adventurer::%uuid of arg-1%}
+            send "&c%arg-1% is no longer an Adventurer!" to player
+            send "&cYour Adventurer role has been revoked!" to arg-1
+        else:
+            send "&cYou must specify a player!" to player
+
+# Check if a player is an Adventurer before allowing the Adventurer kit
+command /kit adventurer:
+    description: Get the Adventurer kit
+    permission: server.kits.adventurer
+    trigger:
+        if {adventurer::%uuid of player%} is true:
+            give player diamond sword named "&bAdventurer's Blade"
+            give player 16 bread
+            give player leather armor
+            send "&aYou have received the Adventurer kit!"
+        else:
+            send "&cYou do not have permission to use the Adventurer kit!"

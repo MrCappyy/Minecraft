@@ -1,0 +1,30 @@
+# Event to create a shop
+on rightclick on a sign:
+    if line 1 of event-block is "[Shop]":
+        if line 2 of event-block is set:
+            set {_item} to line 2 of event-block parsed as item
+            set {_price} to line 3 of event-block parsed as number
+            if {_item} is not set or {_price} is not set:
+                send "&cInvalid shop setup! Use the format: [Shop], item, price." to player
+                stop
+            set {chestshop::%location of event-block%::item} to {_item}
+            set {chestshop::%location of event-block%::price} to {_price}
+            send "&aShop created for %{_item}% at %{_price}% coins!" to player
+
+# Buying from a shop
+on rightclick on a chest:
+    if {chestshop::%location of event-block%::item} is set:
+        set {_item} to {chestshop::%location of event-block%::item}
+        set {_price} to {chestshop::%location of event-block%::price}
+        if player's balance is greater than or equal to {_price}:
+            remove {_price} from player's balance
+            give player {_item}
+            send "&aYou bought %{_item}% for %{_price}% coins!"
+        else:
+            send "&cYou don't have enough coins to buy this item."
+
+# Destroying a shop
+on break of a sign:
+    if {chestshop::%location of event-block%::item} is set:
+        delete {chestshop::%location of event-block%::*}
+        send "&cShop removed!" to player
